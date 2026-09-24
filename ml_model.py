@@ -59,5 +59,4 @@ df["pred_energy"] = model.predict(X_full_scaled)
 
 # Save SAME file format as before
 df.to_csv("campus_energy_big_pred.csv", index=False)
-
-print("✅Upgraded ML model trained & predictions saved.")
+print("Upgraded ML model trained & predictions saved.")

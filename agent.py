@@ -108,5 +108,5 @@ df["best_utility"] = best_utilities
 
 df.to_csv("final_ai_actions.csv", index=False)
 
-print("🔥 FINAL LOCKED AI AGENT RUN SUCCESS")
-print("✅ Mixed actions generated (Low/Medium/High)")
+print("FINAL LOCKED AI AGENT RUN SUCCESS")
+print("Mixed actions generated (Low/Medium/High)")
