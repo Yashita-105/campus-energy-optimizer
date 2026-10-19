@@ -4,7 +4,7 @@ import networkx as nx
 import matplotlib.pyplot as plt
 
 st.set_page_config(page_title="Campus Energy Agent", layout="wide")
-st.title("⚡ Utility-Based Energy Optimization Dashboard")
+st.title("Utility-Based Energy Optimization Dashboard")
 
 DATA_PATH = "data/processed/final_ai_actions.csv"
 df = pd.read_csv(DATA_PATH)
@@ -52,12 +52,8 @@ df["day"] = df["day"].astype(str)
 dates = sorted(df["day"].dropna().unique())
 selected_day = st.sidebar.selectbox("Select Day", dates)
 day_df = df[df["day"] == selected_day]
-hour = st.sidebar.slider(
-    "Select Hour",
-    min_value=0,
-    max_value=23,
-    value=12,
-    format="%02d:00",
+hour = st.sidebar.selectbox(
+    "Select Hour", sorted(day_df["hour"].dropna().unique())
 )
 
 df_filtered = day_df[day_df["hour"] == hour].copy()
@@ -87,7 +83,7 @@ df_filtered["best_utility"] = df_filtered.apply(
     axis=1,
 )
 
-st.subheader(f"📊 Data Snapshot - {selected_day}, Hour {hour}")
+st.subheader(f"Data Snapshot - {selected_day}, Hour {hour}")
 st.dataframe(
     df_filtered[[
         "timestamp", "temperature", "humidity", "occupancy",
@@ -108,12 +104,12 @@ st.subheader("Utility per Action")
 df_plot = pd.DataFrame({"Action": actions, "Utility": [action_utils[a] for a in actions]}).set_index("Action")
 st.bar_chart(df_plot)
 
-st.subheader("📈 Predicted Energy Trend")
+st.subheader("Predicted Energy Trend")
 day_df = df[df["day"] == selected_day]
 energy_trend = day_df.groupby("hour")["pred_energy"].mean()
 st.line_chart(energy_trend)
 
-st.subheader("🧠 Bayesian Decision Network (Live)")
+st.subheader("Bayesian Decision Network (Live)")
 pred = float(row["pred_energy"])
 scale = max(pred, 1.0)
 p_low = max(0.1, 1 - pred / (2 * scale))
@@ -144,7 +140,7 @@ pos = nx.spring_layout(G, seed=42)
 nx.draw(G, pos, with_labels=True, node_size=3500, font_size=9, ax=ax)
 st.pyplot(fig)
 
-st.subheader("📌 Insight")
+st.subheader("Insight")
 st.write(
     "The model predicts real building power demand from sensor conditions. "
     "The utility agent then evaluates Low/Medium/High HVAC-control scenarios. "
