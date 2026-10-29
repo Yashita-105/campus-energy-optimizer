@@ -15,7 +15,7 @@ python download_dataset.py
 python preprocess_dataset.py
 python ml_model.py
 python agent.py
-streamlit run app.py
+python -m streamlit run app.py
 ```
 
 ## Data pipeline
