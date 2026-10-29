@@ -149,7 +149,7 @@ Generate optimized actions:
 
 Launch the dashboard:
 
-    streamlit run app.py
+    python -m streamlit run app.py
 
 ## Evaluation
 
